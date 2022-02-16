@@ -9,6 +9,6 @@ class PerceptronNetwork:
     def feed_forward(self, input: np.ndarray) -> np.ndarray:
 
         for layer in self._layers:  # FIXME(m-jeu): Get rid of for loop?
-            input = layer.activate(input)
+            input = layer.feed_forward(input)
 
         return input
