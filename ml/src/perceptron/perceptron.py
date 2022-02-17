@@ -4,13 +4,16 @@ TODO(m-jeu): Citation to reader."""
 
 import numpy as np
 
+from ml.src.perceptron import abstract
 
-class Perceptron:
+
+class Perceptron(abstract.InOutPutNetworkI):
     def __init__(self,
                  weights: np.ndarray,
                  bias: float):
         self.weights: np.ndarray = weights
         self.bias: float = bias
+        # FIXME(m-jeu): Refactor attributes to private.
 
     def feed_forward(self, inputs: np.ndarray) -> int:  # FIXME(m-jeu): Verify name validity with Mark
         return int(np.dot(self.weights, inputs) + self.bias >= 0)  # According to equation in figure 2.3 in reader.
@@ -24,3 +27,6 @@ class Perceptron:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    def expected_number_of_inputs(self) -> int:
+        return self.weights.size
