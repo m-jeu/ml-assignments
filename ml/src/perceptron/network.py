@@ -7,7 +7,7 @@ from ml.src.perceptron import abstract
 
 
 class PerceptronNetwork(abstract.InOutPutNetworkI):
-    """A network consisting of one or more layers of perceptrons.
+    """A dense network consisting of one or more layers of perceptrons.
 
     Attributes:
         _layers: all layers in the network, ordered from first layer to output layer."""

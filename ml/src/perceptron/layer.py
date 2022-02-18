@@ -7,13 +7,21 @@ from ml.src.perceptron import abstract
 
 
 class PerceptronLayer(abstract.InOutPutNetworkI):
-    """A layer of Perceptrons.
+    """A (dense) layer of Perceptrons.
 
     Attributes:
         _perceptrons: all perceptrons within the layer. In the same ordering as output will be in."""
 
     def __init__(self, perceptrons: np.ndarray) -> None:
-        """Initialize instance with _perceptrons."""
+        """Initialize instance with _perceptrons.
+
+        Raises:
+            ValueError: If expected number of inputs is not equal for all perceptrons."""
+        # Check whether all perceptrons expect the same number of inputs.
+        # So that more confusing errors later down the line are avoided.
+        all_input_ns = np.vectorize(lambda p: p.expected_number_of_inputs())(perceptrons)
+        if not np.all(perceptrons[0].expected_number_of_inputs() == all_input_ns):
+            raise ValueError(f"Amount of expected inputs for perceptrons in layer {self} not homogenous.")
         self._perceptrons: np.ndarray = perceptrons
 
     def feed_forward(self, inputs: np.ndarray) -> np.ndarray:
@@ -28,8 +36,6 @@ class PerceptronLayer(abstract.InOutPutNetworkI):
 
     def expected_number_of_inputs(self) -> int:
         """Determine the number of inputs that this layer expects to receive in .feed_forward().
-
-        WARNING: Currently assumes that all perceptrons match the fingerprint of the first perceptron. FIXME(m-jeu).
 
         Returns:
             the number of inputs that should be passed to .feed_forward()."""
