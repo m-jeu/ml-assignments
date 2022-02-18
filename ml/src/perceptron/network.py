@@ -37,6 +37,8 @@ class PerceptronNetwork(abstract.InOutPutNetworkI):
     def expected_number_of_inputs(self) -> int:
         """Determine the number of inputs that the network expects.
 
+        Based on the expectation of the first layer.
+
         Returns:
             the number of inputs that should be passed to .feed_forward()."""
         return self._layers[0].expected_number_of_inputs()
