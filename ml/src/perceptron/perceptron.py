@@ -15,7 +15,7 @@ class Perceptron(abstract.InOutPutNetworkI):
         self.bias: float = bias
         # FIXME(m-jeu): Refactor attributes to private.
 
-    def feed_forward(self, inputs: np.ndarray) -> int:  # FIXME(m-jeu): Verify name validity with Mark
+    def feed_forward(self, inputs: np.ndarray) -> int:
         return int(np.dot(self.weights, inputs) + self.bias >= 0)  # According to equation in figure 2.3 in reader.
         # Neuron activation function proposed in figure 2.4 is computationally expensive because of O(n) copy operation?
         # That is performed when attempting to insert element at index 0 in numpy array.
