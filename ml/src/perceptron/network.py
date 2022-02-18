@@ -29,7 +29,7 @@ class PerceptronNetwork(abstract.InOutPutNetworkI):
         Returns:
             output of the last layer."""
 
-        for layer in self._layers:  # FIXME(m-jeu): Replace with fancy fold-like operation?
+        for layer in self._layers:
             inputs = layer.feed_forward(inputs)
 
         return inputs
