@@ -1,5 +1,7 @@
-"""Module that implements a perceptron in it's simplest form, as specified in
-TODO(m-jeu): Citation to reader."""
+"""Module that implements a perceptron in it's simplest form, as specified in:
+
+Aldewereld, H., van der Bijl, B., Bunk, J., van Moergestel, L. 2022. Machine Learning (reader).
+Utrecht: Hogeschool Utrecht."""
 
 
 import numpy as np
