@@ -1,5 +1,7 @@
-"""Module that implements a perceptron in it's simplest form, as specified in
-TODO(m-jeu): Citation to reader."""
+"""Module that implements a perceptron in it's simplest form, as specified in:
+
+Aldewereld, H., van der Bijl, B., Bunk, J., van Moergestel, L. 2022. Machine Learning (reader).
+Utrecht: Hogeschool Utrecht."""
 
 
 import numpy as np
@@ -8,25 +10,44 @@ from ml.src.perceptron import abstract
 
 
 class Perceptron(abstract.InOutPutNetworkI):
+    """A perceptron.
+
+    Attributes:
+        _weights:
+            (ordered) array that contains the weights corresponding to each input/perceptron in the previous layer.
+        _bias: perceptron's bias."""
+
     def __init__(self,
                  weights: np.ndarray,
                  bias: float):
-        self.weights: np.ndarray = weights
-        self.bias: float = bias
-        # FIXME(m-jeu): Refactor attributes to private.
+        """Initialize instance with _weights and _bias."""
+        self._weights: np.ndarray = weights
+        self._bias: float = bias
 
-    def feed_forward(self, inputs: np.ndarray) -> int:  # FIXME(m-jeu): Verify name validity with Mark
-        return int(np.dot(self.weights, inputs) + self.bias >= 0)  # According to equation in figure 2.3 in reader.
+    def feed_forward(self, inputs: np.ndarray) -> int:
+        """Compute the perceptron's output based on an array of inputs, corresponding to the ordering of weights
+        as established in the _weights attribute.
+
+        Args:
+            inputs: the inputs from the previous layer's output, as ordered in _weights.
+
+        Returns:
+            The perceptron's output."""
+        return int(np.dot(self._weights, inputs) + self._bias >= 0)  # According to equation in figure 2.3 in reader.
         # Neuron activation function proposed in figure 2.4 is computationally expensive because of O(n) copy operation?
         # That is performed when attempting to insert element at index 0 in numpy array.
         # If change to equation in 2.4 is desired, first element in weights should be 'bias weight'
         # ith 1 added as the first element of every inputs array.
 
     def __str__(self) -> str:
-        return f"( b: {self.bias} )"
+        return f"Perceptron: b: {self._bias} )"
 
     def __repr__(self) -> str:
         return self.__str__()
 
     def expected_number_of_inputs(self) -> int:
-        return self.weights.size
+        """Determine the number of inputs that this perceptron expects to receive in .feed_forward().
+
+        Returns:
+            the number of inputs that should be passed to .feed_forward()."""
+        return self._weights.size
