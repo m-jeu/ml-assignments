@@ -40,7 +40,7 @@ class Perceptron(abstract.InOutPutNetworkI):
         # ith 1 added as the first element of every inputs array.
 
     def __str__(self) -> str:
-        return f"Perceptron: b: {self._bias} )"
+        return f"Perceptron: b: {self._bias}. w: {self._weights} )"
 
     def __repr__(self) -> str:
         return self.__str__()
