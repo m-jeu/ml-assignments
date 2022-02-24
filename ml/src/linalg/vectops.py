@@ -1,3 +1,9 @@
+"""Module that implements certain linear algebra vector-specific functions.
+
+Currently, there is no specific vector type implemented. These are instead represented by
+any iterable that has some sense of ordering."""
+
+
 from typing import Iterable, Union
 
 
