@@ -38,6 +38,7 @@ class Perceptron(abstract.InOutPutNetworkI):
         # According to equation in figure 2.3 in reader.
         # Neuron activation function proposed in figure 2.4 is computationally expensive because of O(n) copy operation?
         # That is performed when attempting to insert element at index 0 in numpy array.
+        #                                                             ^ FIXME(m-jeu): No longer relevant.
         # If change to equation in 2.4 is desired, first element in weights should be 'bias weight'
         # ith 1 added as the first element of every inputs array.
 
