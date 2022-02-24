@@ -20,10 +20,12 @@ class Perceptron(abstract.InOutPutNetworkI):
 
     def __init__(self,
                  weights: Iterable[Union[float, int]],
-                 bias: float):
+                 bias: float,
+                 learning_rate: float = 0):
         """Initialize instance with _weights and _bias."""
         self._weights: Iterable[Union[float, int]] = weights
         self._bias: float = bias
+        self._learning_rate: float = learning_rate  # FIXME(m-jeu): Consider refactoring to non-private.
 
     def feed_forward(self, inputs: Iterable[Union[float, int]]) -> int:
         """Compute the perceptron's output based on an array of inputs, corresponding to the ordering of weights
