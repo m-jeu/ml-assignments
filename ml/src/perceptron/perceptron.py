@@ -16,13 +16,14 @@ class Perceptron(abstract.InOutPutNetworkI):
     Attributes:
         _weights:
             (ordered) array that contains the weights corresponding to each input/perceptron in the previous layer.
-        _bias: perceptron's bias."""
+        _bias: perceptron's bias.
+        _learning_rate: the perceptron's learning rate for application in perceptron learning rule."""
 
     def __init__(self,
                  weights: Iterable[Union[float, int]],
                  bias: float,
                  learning_rate: float = 0):
-        """Initialize instance with _weights and _bias."""
+        """Initialize instance with _weights, _bias and _learning_rate."""
         self._weights: Iterable[Union[float, int]] = weights
         self._bias: float = bias
         self._learning_rate: float = learning_rate  # FIXME(m-jeu): Consider refactoring to non-private.
