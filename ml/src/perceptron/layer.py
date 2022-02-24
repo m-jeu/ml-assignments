@@ -19,8 +19,8 @@ class PerceptronLayer(abstract.InOutPutNetworkI):
             ValueError: If expected number of inputs is not equal for all perceptrons."""
         # Check whether all perceptrons expect the same number of inputs.
         # So that more confusing errors later down the line are avoided.
-        percept1_n_inputs = perceptrons[0]
-        input_equal = map(lambda p: p.expected_number_of_inputs == percept1_n_inputs, perceptrons)
+        percept1_n_inputs = perceptrons[0].expected_number_of_inputs()
+        input_equal = map(lambda p: p.expected_number_of_inputs() == percept1_n_inputs, perceptrons)
         if not all(input_equal):
             raise ValueError(f"Amount of expected inputs for perceptrons in layer {self} not homogenous.")
         self._perceptrons: List[perceptron.Perceptron] = perceptrons
