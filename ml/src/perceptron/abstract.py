@@ -2,9 +2,8 @@
 and PerceptronNetworks that improves testing ability."""
 
 
+from typing import Iterable, Union
 import abc
-
-import numpy as np
 
 
 class InOutPutNetworkI(metaclass=abc.ABCMeta):
@@ -20,7 +19,7 @@ class InOutPutNetworkI(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def feed_forward(self, inputs: np.array) -> np.array or float or int:
+    def feed_forward(self, inputs: Iterable[Union[float, int]]) -> Iterable[Union[float, int]]:
         """Apply input to the component, and output an output based on it.
 
         Args:

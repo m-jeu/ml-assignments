@@ -1,9 +1,9 @@
 """Module that implements a network of perceptrons."""
 
 
-import numpy as np
+from typing import Iterable, Union
 
-from ml.src.perceptron import abstract
+from ml.src.perceptron import abstract, layer
 
 
 class PerceptronNetwork(abstract.InOutPutNetworkI):
@@ -12,11 +12,11 @@ class PerceptronNetwork(abstract.InOutPutNetworkI):
     Attributes:
         _layers: all layers in the network, ordered from first layer to output layer."""
 
-    def __init__(self, layers: np.ndarray) -> None:
+    def __init__(self, layers: Iterable[layer.PerceptronLayer]) -> None:
         """Initialize instance with _layers."""
         self._layers = layers
 
-    def feed_forward(self, inputs: np.ndarray) -> np.ndarray:
+    def feed_forward(self, inputs: Iterable[Union[float, int]]) -> Iterable[Union[float, int]]:
         """Apply an input to the network.
 
         Applies the input to the first layer, and then passes that layer's output to successive
