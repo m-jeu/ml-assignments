@@ -45,6 +45,12 @@ class Perceptron(abstract.InOutPutNetworkI):
         # If change to equation in 2.4 is desired, first element in weights should be 'bias weight'
         # ith 1 added as the first element of every inputs array.
 
+    def update(self, error: int):
+        raise NotImplemented
+
+    def loss(self):
+        raise NotImplemented
+
     def __str__(self) -> str:
         return f"Perceptron: b: {self._bias}. w: {self._weights} )"
 
