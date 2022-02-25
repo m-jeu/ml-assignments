@@ -57,7 +57,7 @@ class Perceptron(abstract.InOutPutNetworkI):
         return int(vectops.dot(self._weights, inputs) + self._bias >= 0)
         # According to equation in figure 2.3 in reader.
         # Neuron activation function proposed in figure 2.4 would provide (almost) no performance boost
-        # Because no optimized paralyzed linear algebra operations are used, but pure python
+        # Because no optimized parallelized linear algebra operations are used, but pure python
         # implementations, and I prefer the readability of the current implementation.
         # If change to equation in 2.4 is desired, first element in weights should be 'bias weight'
         # ith 1 added as the first element of every inputs array.
