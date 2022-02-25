@@ -6,6 +6,8 @@ Utrecht: Hogeschool Utrecht."""
 
 from typing import Iterable, Union
 
+import random
+
 from ml.src.linalg import vectops
 from ml.src.perceptron import abstract
 
@@ -27,6 +29,12 @@ class Perceptron(abstract.InOutPutNetworkI):
         self._weights: Iterable[Union[float, int]] = weights
         self._bias: float = bias
         self._learning_rate: float = learning_rate  # FIXME(m-jeu): Consider refactoring to non-private.
+
+    @classmethod
+    def random_instance(cls, weights_amount: int, learning_rate: float = 0):
+        return Perceptron([random.uniform(-1, 1) for _ in range(weights_amount)],
+                          random.unform(-1, 1),
+                          learning_rate=learning_rate)
 
     def feed_forward(self, inputs: Iterable[Union[float, int]]) -> int:
         """Compute the perceptron's output based on an array of inputs, corresponding to the ordering of weights
