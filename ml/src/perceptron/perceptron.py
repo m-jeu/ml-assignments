@@ -111,7 +111,8 @@ class Perceptron(abstract.InOutPutNetworkI):
 
         Args:
             inputs: the inputs of the training dataset.
-            targets: the expected outputs of the training dataset, in the same order as the inputs."""
+            targets: the expected outputs of the training dataset, in the same order as the inputs.
+            iterations: amount of times the entire training set should be applied to .update()"""
         for _ in range(iterations):
             for inp, target in zip(inputs, targets):
                 self.update(inp, target)
