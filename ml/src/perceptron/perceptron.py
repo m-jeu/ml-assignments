@@ -32,6 +32,8 @@ class Perceptron(abstract.InOutPutNetworkI):
 
     @classmethod
     def random_instance(cls, weights_amount: int, learning_rate: float = 0):
+        """Initialize an instance, with a certain amount of random weights and a bias, uniformly
+        distributed between 0 and 1."""
         return Perceptron([random.uniform(-1, 1) for _ in range(weights_amount)],
                           random.unform(-1, 1),
                           learning_rate=learning_rate)
