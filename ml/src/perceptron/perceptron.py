@@ -8,7 +8,7 @@ The perceptron learning rule is implemented as specified in:
 """
 
 
-from typing import Iterable, Union
+from typing import Iterable, Union, List
 
 import random
 
@@ -27,11 +27,11 @@ class Perceptron(abstract.InOutPutNetworkI):
         _learning_rate: the perceptron's learning rate for application in perceptron learning rule."""
 
     def __init__(self,
-                 weights: list[Union[float or int]],
+                 weights: List[Union[float or int]],
                  bias: float,
                  learning_rate: float = 0):
         """Initialize instance with _weights, _bias and _learning_rate."""
-        self._weights: list[Union[float or int]] = weights
+        self._weights: List[Union[float or int]] = weights
         self._bias: float = bias
         self._learning_rate: float = learning_rate  # FIXME(m-jeu): Consider refactoring to non-private.
 
