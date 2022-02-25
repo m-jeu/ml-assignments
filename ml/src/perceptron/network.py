@@ -42,3 +42,10 @@ class PerceptronNetwork(abstract.InOutPutNetworkI):
         Returns:
             the number of inputs that should be passed to .feed_forward()."""
         return self._layers[0].expected_number_of_inputs()
+
+    def __str__(self) -> str:
+        return f"Sigmoid neuron network with {len(self._layers)} layers, expects " \
+               f"{self.expected_number_of_inputs()} inputs."
+
+    def __repr__(self) -> str:
+        return self.__str__()
