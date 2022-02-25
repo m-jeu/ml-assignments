@@ -33,7 +33,7 @@ class PerceptronLayer(abstract.InOutPutNetworkI):
 
         Returns:
             all perceptrons' output, as ordered as perceptrons were ordered in __init__()."""
-        return map(lambda p: p.feed_forward(inputs), self._perceptrons)  # FIXME(m-jeu): Refactor to non-generator?
+        return map(lambda p: p.feed_forward(inputs), self._perceptrons)
 
     def expected_number_of_inputs(self) -> int:
         """Determine the number of inputs that this layer expects to receive in .feed_forward().

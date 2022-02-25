@@ -5,6 +5,8 @@ Utrecht: Hogeschool Utrecht.
 
 The perceptron learning rule is implemented as specified in:
 
+Single-Layer Neural Networks and Gradient Descent. (2015, 24 march). Dr. Sebastian Raschka. Accessed on 25 february 2022
+,from https://sebastianraschka.com/Articles/2015_singlelayer_neurons.html#the-perceptron-learning-rule.
 """
 
 
@@ -33,7 +35,7 @@ class Perceptron(abstract.InOutPutNetworkI):
         """Initialize instance with _weights, _bias and _learning_rate."""
         self._weights: List[Union[float or int]] = weights
         self._bias: float = bias
-        self._learning_rate: float = learning_rate  # FIXME(m-jeu): Consider refactoring to non-private.
+        self._learning_rate: float = learning_rate
 
     @classmethod
     def random_instance(cls, weights_amount: int, learning_rate: float = 0):
@@ -54,9 +56,9 @@ class Perceptron(abstract.InOutPutNetworkI):
             The perceptron's output."""
         return int(vectops.dot(self._weights, inputs) + self._bias >= 0)
         # According to equation in figure 2.3 in reader.
-        # Neuron activation function proposed in figure 2.4 is computationally expensive because of O(n) copy operation?
-        # That is performed when attempting to insert element at index 0 in numpy array.
-        #                                                             ^ FIXME(m-jeu): No longer relevant.
+        # Neuron activation function proposed in figure 2.4 would provide (almost) no performance boost
+        # Because no optimized paralyzed linear algebra operations are used, but pure python
+        # implementations, and I prefer the readability of the current implementation.
         # If change to equation in 2.4 is desired, first element in weights should be 'bias weight'
         # ith 1 added as the first element of every inputs array.
 
@@ -64,10 +66,8 @@ class Perceptron(abstract.InOutPutNetworkI):
                                      error: int,
                                      inp: float = 1,
                                      ) -> float:
-        """Apply the perceptron learning rule as specified in the blogpost to a single input to compute
-        the required delta for the weights associated with that input.
-
-        Blogpost: https://sebastianraschka.com/Articles/2015_singlelayer_neurons.html#the-perceptron-learning-rule
+        """Apply the perceptron learning rule as specified in the blogpost by Dr. Sebastian Raschka to a single input to
+        compute the required delta for the weights associated with that input.
 
         Args:
             error: the error of the output produced by the perceptron (expected output - actual output).
@@ -80,7 +80,7 @@ class Perceptron(abstract.InOutPutNetworkI):
 
     def update(self, inputs: Iterable[Union[float, int]], target: int) -> None:
         """Update the perceptron's weights and biases according to the perceptron learning rule, as
-        described in (TODO REFERENCE) for a single training example.
+        described by Dr. Sebastian Raschka for a single training example.
 
         Args:
             inputs: the inputs of the training example.
@@ -120,7 +120,8 @@ class Perceptron(abstract.InOutPutNetworkI):
     def learn_until_loss(self,
                          inputs: Iterable[Iterable[Union[float, int]]],
                          targets: Iterable[int],
-                         loss_target: float) -> float:
+                         loss_target: float,
+                         ) -> float:
         """Train the perceptron using .update() on a training dataset until the loss (computed with .loss()) becomes
         lower then a provided threshold.
 

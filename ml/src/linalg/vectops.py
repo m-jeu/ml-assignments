@@ -16,4 +16,4 @@ def dot(v1: Iterable[Union[float, int]], v2: Iterable[Union[float, int]]) -> Uni
 
     Returns:
         dot product for the 2 vectors."""
-    return sum(map(lambda two_tup: two_tup[0] * two_tup[1], zip(v1, v2)))  # FIXME(m-jeu): Less ugly tuple unpacking?
+    return sum(map(lambda two_tup: two_tup[0] * two_tup[1], zip(v1, v2)))
