@@ -8,23 +8,12 @@ Utrecht: Hogeschool Utrecht.
 # later point.
 
 
-from typing import Iterable, Union, List
+from typing import Iterable, Union, List, Callable
 
 import math
 
+from ml.src.neuron import activation
 from ml.src.linalg import vectops
-
-
-def _sigmoid(z: float) -> float:
-    """Sigmoid function as specified in (Aldewereld, H. et al.), that proportionally
-    casts a value to a proportional value between 0 and 1.
-
-    Args:
-        z: sigmoid input.
-
-    Returns:
-        sigmoid output."""
-    return 1 / (1 + (math.e ** -z))
 
 
 class SigmoidNeuron:
@@ -33,14 +22,19 @@ class SigmoidNeuron:
     Attributes:
         _weights:
             (ordered) array that contains the weights corresponding to each input/neuron in the previous layer.
-        _bias: neuron's bias."""
+        _bias: neuron's bias.
+        _activation_function:
+            function that casts weighted sum of input vector and weight vector together with bias to a value between 0
+            and 1, such as the sigmoid function of ReLu."""
 
     def __init__(self,
                  weights: List[Union[float or int]],
-                 bias: float):
-        """Initialize instance with _weights, _bias and _learning_rate."""
+                 bias: float,
+                 activation_function: Callable[[float], float] = activation.sigmoid):
+        """Initialize instance with _weights, _bias, _activation_function."""
         self._weights: List[Union[float or int]] = weights
         self._bias: float = bias
+        self._activation_function: Callable[[float], float] = activation_function
 
     def feed_forward(self, inputs: Iterable[Union[float, int]]) -> float:
         """Compute the neuron's output based on an array of inputs, corresponding to the ordering of weights
@@ -51,7 +45,7 @@ class SigmoidNeuron:
 
         Returns:
             The neuron's output."""
-        return _sigmoid(vectops.dot(self._weights, inputs) + self._bias)
+        return self._activation_function(vectops.dot(self._weights, inputs) + self._bias)
         # According to equation in figure 2.3 in reader.
         # Neuron activation function proposed in figure 2.4 would provide (almost) no performance boost
         # Because no optimized parallelized linear algebra operations are used, but pure python
