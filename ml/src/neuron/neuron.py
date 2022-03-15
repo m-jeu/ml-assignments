@@ -36,16 +36,23 @@ class SigmoidNeuron:
         self._bias: float = bias
         self._activation_function: Callable[[float], float] = activation_function
 
+        self._last_input: Iterable[Union[float, int]] = [0 for _ in range(self.expected_number_of_inputs())]
+        self._last_output: float = 0  # FIXME(m-jeu): Consider making sentinel value?
+
     def feed_forward(self, inputs: Iterable[Union[float, int]]) -> float:
         """Compute the neuron's output based on an array of inputs, corresponding to the ordering of weights
         as established in the _weights attribute.
+
+        Also caches function input and output in ._last_input and ._last_output.
 
         Args:
             inputs: the inputs from the previous layer's output, as ordered in _weights.
 
         Returns:
             The neuron's output."""
-        return self._activation_function(vectops.dot(self._weights, inputs) + self._bias)
+        self._last_input = inputs
+        self._last_output = self._activation_function(vectops.dot(self._weights, inputs) + self._bias)
+        return self._last_output
         # According to equation in figure 2.3 in reader.
         # Neuron activation function proposed in figure 2.4 would provide (almost) no performance boost
         # Because no optimized parallelized linear algebra operations are used, but pure python
@@ -65,3 +72,4 @@ class SigmoidNeuron:
         Returns:
             the number of inputs that should be passed to .feed_forward()."""
         return len(self._weights)
+
