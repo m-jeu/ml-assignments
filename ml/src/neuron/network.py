@@ -12,7 +12,7 @@ class SigmoidNeuronNetwork:
     Attributes:
         _layers: all layers in the network, ordered from first layer to output layer."""
 
-    def __init__(self, layers: Iterable[layer.neuronLayer]) -> None:
+    def __init__(self, layers: Iterable[layer.SigmoidNeuronLayer]) -> None:
         """Initialize instance with _layers."""
         self._layers = layers
 
