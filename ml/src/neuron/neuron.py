@@ -6,7 +6,7 @@ Utrecht: Hogeschool Utrecht.
 # FIXME(m-jeu): Unfortunately, I currently have no time to currently implement a shared base class
 # With the perceptron in the perceptron package. Obviously, this should be changed at some
 # later point.
-
+from __future__ import annotations
 
 from typing import Iterable, Union, List, Callable
 
@@ -16,7 +16,7 @@ from ml.src.neuron import activation
 from ml.src.linalg import vectops
 
 
-class SigmoidNeuron:
+class SigmoidNeuron:  # FIXME(m-jeu): rename.
     """A neuron.
 
     Attributes:
@@ -30,14 +30,17 @@ class SigmoidNeuron:
     def __init__(self,
                  weights: List[Union[float or int]],
                  bias: float,
-                 activation_function: Callable[[float], float] = activation.sigmoid):
+                 learning_rate: float,
+                 activation_function: activation.ActivationFunction = activation.sigmoid):
         """Initialize instance with _weights, _bias, _activation_function."""
         self._weights: List[Union[float or int]] = weights
         self._bias: float = bias
-        self._activation_function: Callable[[float], float] = activation_function
+        self._activation_function: activation.ActivationFunction = activation_function
+        self._learning_rate: float = learning_rate
 
         self._last_input: Iterable[Union[float, int]] = [0 for _ in range(self.expected_number_of_inputs())]
         self._last_output: float = 0  # FIXME(m-jeu): Consider making sentinel value?
+        self._last_error: float = 0
 
     def feed_forward(self, inputs: Iterable[Union[float, int]]) -> float:
         """Compute the neuron's output based on an array of inputs, corresponding to the ordering of weights
@@ -72,4 +75,20 @@ class SigmoidNeuron:
         Returns:
             the number of inputs that should be passed to .feed_forward()."""
         return len(self._weights)
+
+    # FIXME(m-jeu): Temporary solution, should be output neuron specific in future.
+    def _output_error(self, target: Union[float, int]) -> None:
+        """Determine the error for an output neuron, and save to self.error"""
+        self._last_error = (self._last_output * (1 - self._last_output)) * -(target - self._last_output)
+
+    def _gradient(self, origin: SigmoidNeuron) -> float:
+        return origin._last_output * self._last_error
+
+    def _delta_weight(self, origin: SigmoidNeuron) -> float:
+        return self._learning_rate * self._gradient(origin)
+
+    def _delta_bias(self) -> float:
+        return self._learning_rate * self._last_error
+
+
 
