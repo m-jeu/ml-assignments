@@ -6,7 +6,7 @@ from typing import Iterable, Union
 from ml.src.neuron import layer
 
 
-class SigmoidNeuronNetwork:
+class NeuronNetwork:
     """A dense network consisting of one or more layers of neurons.
 
     Attributes:

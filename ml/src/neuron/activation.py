@@ -37,7 +37,7 @@ class _Sigmoid(ActivationFunction):
         return output * (1 - output)
 
 
-sigmoid: ActivationFunction = _Sigmoid()
+sigmoid: ActivationFunction = _Sigmoid()  # FIXME(m-jeu): Singleton pattern?
 
 
 class _ReLU(ActivationFunction):

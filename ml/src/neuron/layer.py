@@ -3,16 +3,16 @@
 
 from typing import Iterable, Union, List
 
-from ml.src.neuron import SigmoidNeuron
+from ml.src.neuron import BaseNeuron, OutputNeuron, HiddenNeuron
 
 
-class SigmoidNeuronLayer:
+class NeuronLayer:
     """A (dense) layer of neurons.
 
     Attributes:
         _neurons: all neurons within the layer. In the same ordering as output will be in."""
 
-    def __init__(self, neurons: List[SigmoidNeuron]) -> None:
+    def __init__(self, neurons: List[BaseNeuron]) -> None:
         """Initialize instance with _neurons.
 
         Raises:
@@ -23,7 +23,7 @@ class SigmoidNeuronLayer:
         input_equal = map(lambda p: p.expected_number_of_inputs() == neur1_n_inputs, neurons)
         if not all(input_equal):
             raise ValueError(f"Amount of expected inputs for neurons in layer {self} not homogenous.")
-        self._neurons: List[SigmoidNeuron] = neurons
+        self._neurons: List[BaseNeuron] = neurons
 
     def feed_forward(self, inputs: Iterable[Union[float, int]]) -> Iterable[float]:
         """Apply an input to all neurons in layer, and output their result.
@@ -41,3 +41,10 @@ class SigmoidNeuronLayer:
         Returns:
             the number of inputs that should be passed to .feed_forward()."""
         return self._neurons[0].expected_number_of_inputs()  # Assumes all neurons are equal.
+
+    def __getitem__(self, item: int) -> BaseNeuron:
+        return self._neurons[item]
+
+    def get_errors(self) -> List[float]:
+        """For convenience"""
+        return [n.last_error for n in self._neurons]

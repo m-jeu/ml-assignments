@@ -10,13 +10,13 @@ from __future__ import annotations
 
 from typing import Iterable, Union, List, Callable
 
-import math
+import abc
 
 from ml.src.neuron import activation
 from ml.src.linalg import vectops
 
 
-class SigmoidNeuron:  # FIXME(m-jeu): rename.
+class BaseNeuron(metaclass=abc.ABCMeta):
     """A neuron.
 
     Attributes:
@@ -40,7 +40,7 @@ class SigmoidNeuron:  # FIXME(m-jeu): rename.
 
         self._last_input: Iterable[Union[float, int]] = [0 for _ in range(self.expected_number_of_inputs())]
         self._last_output: float = 0  # FIXME(m-jeu): Consider making sentinel value?
-        self._last_error: float = 0
+        self.last_error: float = 0
 
     def feed_forward(self, inputs: Iterable[Union[float, int]]) -> float:
         """Compute the neuron's output based on an array of inputs, corresponding to the ordering of weights
@@ -76,19 +76,32 @@ class SigmoidNeuron:  # FIXME(m-jeu): rename.
             the number of inputs that should be passed to .feed_forward()."""
         return len(self._weights)
 
-    # FIXME(m-jeu): Temporary solution, should be output neuron specific in future.
-    def _output_error(self, target: Union[float, int]) -> None:
+    @abc.abstractmethod
+    def _output_error(self, target: ...) -> None:
         """Determine the error for an output neuron, and save to self.error"""
-        self._last_error = (self._last_output * (1 - self._last_output)) * -(target - self._last_output)
+        pass
 
-    def _gradient(self, origin: SigmoidNeuron) -> float:
-        return origin._last_output * self._last_error
+    def _gradient(self, origin: BaseNeuron) -> float:
+        return origin._last_output * self._laaast_error
 
-    def _delta_weight(self, origin: SigmoidNeuron) -> float:
+    def _delta_weight(self, origin: BaseNeuron) -> float:
         return self._learning_rate * self._gradient(origin)
 
     def _delta_bias(self) -> float:
-        return self._learning_rate * self._last_error
+        return self._learning_rate * self.last_error
+
+    def __getitem__(self, item) -> Union[float, int]:
+        return self._bias if item == "b" else self._weights[item]  # FIXME(m-jeu): Is this dumb? Probably.
 
 
+class OutputNeuron(BaseNeuron):
 
+    def _output_error(self, target: Union[float, int]) -> None:
+        """Determine the error for an output neuron, and save to self.error"""
+        self.last_error = self._activation_function.derivative(self._last_input) * -(target - self._last_output)
+
+
+class HiddenNeuron(BaseNeuron):
+
+    def _output_error(self, target: ) -> None:
+        self.last_error = vectops.dot()

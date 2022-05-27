@@ -1,3 +1,4 @@
-from .neuron import SigmoidNeuron
-from .layer import SigmoidNeuronLayer
-from .network import SigmoidNeuronNetwork
+from .neuron import BaseNeuron, OutputNeuron, HiddenNeuron
+from .layer import NeuronLayer
+from .network import NeuronNetwork
+from .activation import sigmoid, relu
