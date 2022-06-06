@@ -11,28 +11,31 @@ from typing import Union
 # with actual activation functions instead of 1 "ActivationFunction" class
 # with instances for every activation function because this approach allows
 # having derivatives easily being able to call original function, but only if required.
-# Which would be way harder with 1 singular class with 2 functions as attributes.
+# Which would be harder and less explicit with 1 singular class with 2 functions as attributes.
 class ActivationFunction(metaclass=abc.ABCMeta):
+    """An activation function, with a derivative."""
 
     @abc.abstractmethod
-    def func(self, inp: float) -> float:
+    def func(self, inp: Union[float, int]) -> Union[float, int]:
+        """Function itself."""
         pass
 
     @abc.abstractmethod
-    def derivative(self, inp: float) -> float:
+    def deriv(self, inp: float) -> float:
+        """Function's derivative."""
         pass
 
-    def __call_(self, inp: Union[float, int]) -> Union[float, int]:
-        return self.funct(inp)
+    def __call__(self, inp: Union[float, int]) -> Union[float, int]:
+        return self.func(inp)
 
 
 # Sigmoid derivative is more efficient when not written as lambda
 class _Sigmoid(ActivationFunction):
 
     def func(self, inp: float) -> float:
-        return 1 / (1 + (math.e ** -inp))
+        return 1 / (1 + (math.e ** (-inp)))
 
-    def derivative(self, inp: float) -> float:  # FIXME(m-jeu): Allow passing in pre-computed output.
+    def deriv(self, inp: float) -> float:
         output: float = self(inp)
         return output * (1 - output)
 
@@ -44,7 +47,7 @@ class _ReLU(ActivationFunction):
     def func(self, inp: float) -> float:
         return max(0, inp)
 
-    def derivative(self, inp: float) -> float:
+    def deriv(self, inp: float) -> float:
         return 0 if inp < 0 else 1
 
 

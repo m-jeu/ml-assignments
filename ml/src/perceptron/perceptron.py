@@ -32,7 +32,7 @@ class Perceptron(abstract.InOutPutNetworkI):
                  weights: List[Union[float or int]],
                  bias: float,
                  learning_rate: float = 0):
-        """Initialize instance with _weights, _bias and _learning_rate."""
+        """Initialize instance with weights, _bias and _learning_rate."""
         self._weights: List[Union[float or int]] = weights
         self._bias: float = bias
         self._learning_rate: float = learning_rate
@@ -47,10 +47,10 @@ class Perceptron(abstract.InOutPutNetworkI):
 
     def feed_forward(self, inputs: Iterable[Union[float, int]]) -> int:
         """Compute the perceptron's output based on an array of inputs, corresponding to the ordering of weights
-        as established in the _weights attribute.
+        as established in the weights attribute.
 
         Args:
-            inputs: the inputs from the previous layer's output, as ordered in _weights.
+            inputs: the inputs from the previous layer's output, as ordered in weights.
 
         Returns:
             The perceptron's output."""
