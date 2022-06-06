@@ -40,7 +40,7 @@ class BaseNeuron(metaclass=abc.ABCMeta):
         _last_output_before_activation:
             the last output ((weighted sum between inputs and weights) + bias) passed forward during feed_forward() by
             this neuron, before it was passed to this Neuron's _activation_function. Used for back propagation.
-        _last_error: the error most recently computed by _output error.
+        last_error: the error most recently computed by _output error.
         staged_deltas:
             A tuple containing the deltas for both the bias (at index 0) and the weights (at index 1) that will be
             applied when update() is called."""
@@ -68,6 +68,9 @@ class BaseNeuron(metaclass=abc.ABCMeta):
 
         self.staged_deltas: Tuple[float, Iterable[float]] = (0, tuple())
 
+    # Xavier initialization is specifically scaled to sigmoid activation function, which would be more effective with
+    # a different formula/constants for (for instance) ReLu. We are not expected to implement other activation function
+    # for P4 however, so I won't bother with taking that into account.
     @classmethod
     def random_instance(cls,
                         amount_of_weights: int,
@@ -198,7 +201,7 @@ class BaseNeuron(metaclass=abc.ABCMeta):
 
 class OutputNeuron(BaseNeuron):
 
-    def _output_error(self, target: Iterable[Union[float, int]]) -> None:
+    def _output_error(self, target: List[Union[float, int]]) -> None:
         """Determine the error for an output neuron, and save to self.error.
 
         Args:
